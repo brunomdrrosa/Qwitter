@@ -17,20 +17,75 @@
             <q-icon name="home" size="md" />
           </q-item-section>
 
-          <q-item-section class="text-h6 text-weight-bold">Página Inicial</q-item-section>
+          <q-item-section class="text-h6 text-weight-bold"
+            >Página Inicial</q-item-section
+          >
         </q-item>
         <q-item to="/sobre" clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="help" size="md" />
           </q-item-section>
 
-          <q-item-section class="text-h6 text-weight-bold">Sobre</q-item-section>
+          <q-item-section class="text-h6 text-weight-bold"
+            >Sobre</q-item-section
+          >
         </q-item>
       </q-list>
     </q-drawer>
 
     <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
-      <!-- drawer content -->
+      <q-input placeholder="Buscar no Qwitter" outlined rounded class="q-ma-md">
+        <template v-slot:prepend>
+          <q-icon name="search" />
+        </template>
+      </q-input>
+      <q-list padding separator>
+        <q-item class="q-pa-md">
+          <q-item-section>
+            <q-item-label overline class="text-grey">Futebol</q-item-label>
+            <q-item-label class="text-weight-bold">Lewa</q-item-label>
+            <q-item-label caption
+              >Fim da novela! Lewandowski fecha com o Barcelona por 50 milhões
+              de euros.</q-item-label
+            >
+          </q-item-section>
+
+          <q-item-section side top>
+            <q-item-label caption>há 3 minutos</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item class="q-pa-md">
+          <q-item-section>
+            <q-item-label overline class="text-grey"
+              >UEFA Champions League</q-item-label
+            >
+            <q-item-label class="text-weight-bold">Barça</q-item-label>
+            <q-item-label caption
+              >Barcelona e Bayern se aproximam de acordo por
+              Lewandowski.</q-item-label
+            >
+          </q-item-section>
+
+          <q-item-section side top>
+            <q-item-label caption>há 30 minutos</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item class="q-pa-md">
+          <q-item-section>
+            <q-item-label overline class="text-grey">Futebol</q-item-label>
+            <q-item-label class="text-weight-bold">Oscar</q-item-label>
+            <q-item-label caption
+              >Flamengo abriu negociações com o meia Oscar, do Shangai
+              SIPG.</q-item-label
+            >
+          </q-item-section>
+
+          <q-item-section side top>
+            <q-item-label caption>há 23 minutos</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
     </q-drawer>
 
     <q-page-container>
