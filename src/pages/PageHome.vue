@@ -1,101 +1,102 @@
 <template>
-  <q-page>
-    <div class="q-py-lg q-px-md row items-end q-col-gutter-md">
-      <div class="col">
-        <q-input
-          bottom-slots
-          v-model="newQweetContent"
-          class="new-qweet"
-          placeholder="O que está acontecendo?"
-          counter
-          maxlength="280"
-          autogrow
+  <q-page class="relative-position">
+    <q-scroll-area class="absolute fullscreen">
+      <div class="q-py-lg q-px-md row items-end q-col-gutter-md">
+        <div class="col">
+          <q-input
+            bottom-slots
+            v-model="newQweetContent"
+            class="new-qweet"
+            placeholder="O que está acontecendo?"
+            counter
+            maxlength="280"
+            autogrow
+          >
+            <template v-slot:before>
+              <q-avatar size="xl">
+                <img
+                  src="https://pbs.twimg.com/profile_images/1391831038511521794/izFarcRT_400x400.jpg"
+                />
+              </q-avatar>
+            </template>
+          </q-input>
+        </div>
+        <div class="col col-shrink">
+          <q-btn
+            @click="addNewQweet"
+            :disable="!newQweetContent"
+            class="q-mb-lg"
+            color="primary"
+            label="Qweet"
+            rounded
+            unelevated
+            no-caps
+          />
+        </div>
+      </div>
+      <q-separator class="divider" size="10px" color="grey-2" />
+      <q-list separator>
+        <transition-group
+          appear
+          enter-active-class="animated fadeIn slow"
+          leave-active-class="animated fadeOut slow"
         >
-          <template v-slot:before>
-            <q-avatar size="xl">
-              <img
-                src="https://pbs.twimg.com/profile_images/1391831038511521794/izFarcRT_400x400.jpg"
-              />
-            </q-avatar>
-          </template>
-        </q-input>
-      </div>
-      <div class="col col-shrink">
-        <q-btn
-          @click="addNewQweet"
-          :disable="!newQweetContent"
-          class="q-mb-lg"
-          color="primary"
-          label="Qweet"
-          rounded
-          unelevated
-          no-caps
-        />
-      </div>
-    </div>
-    <q-separator class="divider" size="10px" color="grey-2" />
-    <q-list separator>
-      <transition-group
-        appear
-        enter-active-class="animated fadeIn slow"
-        leave-active-class="animated fadeOut slow"
-      >
-        <q-item v-for="qweet in qweets" :key="qweet.date" class="q-py-md">
-          <q-item-section avatar top>
-            <q-avatar size="xl">
-              <img
-                src="https://pbs.twimg.com/profile_images/1391831038511521794/izFarcRT_400x400.jpg"
-              />
-            </q-avatar>
-          </q-item-section>
+          <q-item v-for="qweet in qweets" :key="qweet.date" class="q-py-md">
+            <q-item-section avatar top>
+              <q-avatar size="xl">
+                <img
+                  src="https://pbs.twimg.com/profile_images/1391831038511521794/izFarcRT_400x400.jpg"
+                />
+              </q-avatar>
+            </q-item-section>
 
-          <q-item-section>
-            <q-item-label class="text-subtitle1"
-              ><strong>Bruno Machado</strong>
-              <span class="text-grey-7"> @brunomdr02</span></q-item-label
-            >
-            <q-item-label class="qweet-content text-body1">
-              {{ qweet.content }}
-            </q-item-label>
-            <div class="qweet-icons row justify-between q-mt-sm">
-              <q-btn
-                color="grey"
-                icon="far fa-comment"
-                size="sm"
-                flat
-                round
-              ></q-btn>
-              <q-btn
-                color="grey"
-                icon="fas fa-retweet"
-                size="sm"
-                flat
-                round
-              ></q-btn>
-              <q-btn
-                color="grey"
-                icon="far fa-heart"
-                size="sm"
-                flat
-                round
-              ></q-btn>
-              <q-btn
-                @click="deleteQweet(qweet)"
-                color="grey"
-                icon="fas fa-trash"
-                size="sm"
-                flat
-                round
-              ></q-btn>
-            </div>
-          </q-item-section>
-
-          <q-item-section side top>{{
-            relativeDate(qweet.date)
-          }}</q-item-section>
-        </q-item>
-      </transition-group>
-    </q-list>
+            <q-item-section>
+              <q-item-label class="text-subtitle1"
+                ><strong>Bruno Machado</strong>
+                <span class="text-grey-7">
+                  @brunomdr02 <br class="lt-md" />&bull;
+                  {{ relativeDate(qweet.date) }}</span
+                ></q-item-label
+              >
+              <q-item-label class="qweet-content text-body1">
+                {{ qweet.content }}
+              </q-item-label>
+              <div class="qweet-icons row justify-between q-mt-sm">
+                <q-btn
+                  color="grey"
+                  icon="far fa-comment"
+                  size="sm"
+                  flat
+                  round
+                ></q-btn>
+                <q-btn
+                  color="grey"
+                  icon="fas fa-retweet"
+                  size="sm"
+                  flat
+                  round
+                ></q-btn>
+                <q-btn
+                  color="grey"
+                  icon="far fa-heart"
+                  size="sm"
+                  flat
+                  round
+                ></q-btn>
+                <q-btn
+                  @click="deleteQweet(qweet)"
+                  color="grey"
+                  icon="fas fa-trash"
+                  size="sm"
+                  flat
+                  round
+                ></q-btn>
+              </div>
+            </q-item-section>
+          </q-item>
+        </transition-group>
+      </q-list>
+    </q-scroll-area>
   </q-page>
 </template>
 
