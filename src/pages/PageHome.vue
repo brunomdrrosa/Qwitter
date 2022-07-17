@@ -101,6 +101,8 @@
 </template>
 
 <script>
+import db from "src/boot/firebase";
+import { collection, getDocs, orderBy, query, limit } from "firebase/firestore";
 import { defineComponent } from "vue";
 import { formatDistance } from "date-fns";
 
@@ -110,15 +112,15 @@ export default defineComponent({
     return {
       newQweetContent: "",
       qweets: [
-        {
-          content: "Olá mundo.",
-          date: 1658082810106,
-        },
-        {
-          content:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac commodo est. Donec fringilla consectetur leo, et eleifend sem hendrerit vel.",
-          date: 1658082816067,
-        },
+        // {
+        //   content: "Olá mundo.",
+        //   date: 1658082810106,
+        // },
+        // {
+        //   content:
+        //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac commodo est. Donec fringilla consectetur leo, et eleifend sem hendrerit vel.",
+        //   date: 1658082816067,
+        // },
       ],
     };
   },
@@ -139,6 +141,15 @@ export default defineComponent({
       let index = this.qweets.findIndex((qweet) => qweet.date === dateToDelete);
       this.qweets.splice(index, 1);
     },
+  },
+  async mounted() {
+    const ordersRef = collection(db, "qweets");
+    const q = query(ordersRef, orderBy("date"));
+    const querySnapshot = await getDocs(q);
+    
+    querySnapshot.forEach((doc) => {
+      this.qweets.unshift(doc.data());
+    });
   },
 });
 </script>
