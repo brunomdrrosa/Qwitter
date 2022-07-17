@@ -22,6 +22,7 @@
       </div>
       <div class="col col-shrink">
         <q-btn
+          @click="addNewQweet"
           :disable="!newQweetContent"
           class="q-mb-lg"
           color="primary"
@@ -96,7 +97,6 @@ import { formatDistance } from "date-fns";
 export default defineComponent({
   name: "PageHome",
   data() {
-    
     return {
       newQweetContent: "",
       qweets: [
@@ -114,10 +114,17 @@ export default defineComponent({
     };
   },
   methods: {
-  relativeDate(value) {
-    return formatDistance(value, new Date())
-  }
-}
+    relativeDate(value) {
+      return formatDistance(value, new Date());
+    },
+    addNewQweet() {
+      let newQweet = {
+        content: this.newQweetContent,
+        date: Date.now(),
+      };
+      this.qweets.unshift(newQweet);
+    },
+  },
 });
 </script>
 
