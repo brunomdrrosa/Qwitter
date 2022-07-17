@@ -33,8 +33,8 @@
       </div>
     </div>
     <q-separator class="divider" size="10px" color="grey-2" />
-    <q-list>
-      <q-item class="q-py-md">
+    <q-list separator>
+      <q-item v-for="qweet in qweets" :key="qweet.date" class="q-py-md">
         <q-item-section avatar top>
           <q-avatar size="xl">
             <img
@@ -49,19 +49,41 @@
             ><span class="text-grey-7">@brunomdr02</span></q-item-label
           >
           <q-item-label class="qweet-content text-body1">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac
-            commodo est. Donec fringilla consectetur leo, et eleifend sem
-            hendrerit vel.
+            {{ qweet.content }}
           </q-item-label>
           <div class="qweet-icons row justify-between q-mt-sm">
-            <q-btn color="grey" icon="far fa-comment" size="sm" flat round></q-btn>
-            <q-btn color="grey" icon="fas fa-retweet" size="sm" flat round></q-btn>
-            <q-btn color="grey" icon="far fa-heart" size="sm" flat round></q-btn>
-            <q-btn color="grey" icon="fas fa-trash" size="sm" flat round></q-btn>
+            <q-btn
+              color="grey"
+              icon="far fa-comment"
+              size="sm"
+              flat
+              round
+            ></q-btn>
+            <q-btn
+              color="grey"
+              icon="fas fa-retweet"
+              size="sm"
+              flat
+              round
+            ></q-btn>
+            <q-btn
+              color="grey"
+              icon="far fa-heart"
+              size="sm"
+              flat
+              round
+            ></q-btn>
+            <q-btn
+              color="grey"
+              icon="fas fa-trash"
+              size="sm"
+              flat
+              round
+            ></q-btn>
           </div>
         </q-item-section>
 
-        <q-item-section side top> 1 min ago </q-item-section>
+        <q-item-section side top>{{ relativeDate(qweet.date) }}</q-item-section>
       </q-item>
     </q-list>
   </q-page>
@@ -69,14 +91,33 @@
 
 <script>
 import { defineComponent } from "vue";
+import { formatDistance } from "date-fns";
 
 export default defineComponent({
   name: "PageHome",
   data() {
+    
     return {
       newQweetContent: "",
+      qweets: [
+        {
+          content:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac commodo est. Donec fringilla consectetur leo, et eleifend sem hendrerit vel.",
+          date: 1658082810106,
+        },
+        {
+          content:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac commodo est. Donec fringilla consectetur leo, et eleifend sem hendrerit vel.",
+          date: 1658082816067,
+        },
+      ],
     };
   },
+  methods: {
+  relativeDate(value) {
+    return formatDistance(value, new Date())
+  }
+}
 });
 </script>
 
