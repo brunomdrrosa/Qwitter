@@ -102,7 +102,13 @@
 
 <script>
 import db from "src/boot/firebase";
-import { collection, getDocs, orderBy, query, limit } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  addDoc,
+} from "firebase/firestore";
 import { defineComponent } from "vue";
 import { formatDistance } from "date-fns";
 
@@ -111,29 +117,19 @@ export default defineComponent({
   data() {
     return {
       newQweetContent: "",
-      qweets: [
-        // {
-        //   content: "Olá mundo.",
-        //   date: 1658082810106,
-        // },
-        // {
-        //   content:
-        //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac commodo est. Donec fringilla consectetur leo, et eleifend sem hendrerit vel.",
-        //   date: 1658082816067,
-        // },
-      ],
+      qweets: [],
     };
   },
   methods: {
     relativeDate(value) {
       return formatDistance(value, new Date());
     },
-    addNewQweet() {
+    async addNewQweet() {
       let newQweet = {
         content: this.newQweetContent,
         date: Date.now(),
       };
-      this.qweets.unshift(newQweet);
+      const docRef = await addDoc(collection(db, "qweets"), (newQweet));
       this.newQweetContent = "";
     },
     deleteQweet(qweet) {
@@ -146,7 +142,7 @@ export default defineComponent({
     const ordersRef = collection(db, "qweets");
     const q = query(ordersRef, orderBy("date"));
     const querySnapshot = await getDocs(q);
-    
+
     querySnapshot.forEach((doc) => {
       this.qweets.unshift(doc.data());
     });
