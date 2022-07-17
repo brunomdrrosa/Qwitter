@@ -35,58 +35,66 @@
     </div>
     <q-separator class="divider" size="10px" color="grey-2" />
     <q-list separator>
-      <q-item v-for="qweet in qweets" :key="qweet.date" class="q-py-md">
-        <q-item-section avatar top>
-          <q-avatar size="xl">
-            <img
-              src="https://pbs.twimg.com/profile_images/1391831038511521794/izFarcRT_400x400.jpg"
-            />
-          </q-avatar>
-        </q-item-section>
+      <transition-group
+        appear
+        enter-active-class="animated fadeIn slow"
+        leave-active-class="animated fadeOut slow"
+      >
+        <q-item v-for="qweet in qweets" :key="qweet.date" class="q-py-md">
+          <q-item-section avatar top>
+            <q-avatar size="xl">
+              <img
+                src="https://pbs.twimg.com/profile_images/1391831038511521794/izFarcRT_400x400.jpg"
+              />
+            </q-avatar>
+          </q-item-section>
 
-        <q-item-section>
-          <q-item-label class="text-subtitle1"
-            ><strong>Bruno Machado</strong
-            ><span class="text-grey-7">@brunomdr02</span></q-item-label
-          >
-          <q-item-label class="qweet-content text-body1">
-            {{ qweet.content }}
-          </q-item-label>
-          <div class="qweet-icons row justify-between q-mt-sm">
-            <q-btn
-              color="grey"
-              icon="far fa-comment"
-              size="sm"
-              flat
-              round
-            ></q-btn>
-            <q-btn
-              color="grey"
-              icon="fas fa-retweet"
-              size="sm"
-              flat
-              round
-            ></q-btn>
-            <q-btn
-              color="grey"
-              icon="far fa-heart"
-              size="sm"
-              flat
-              round
-            ></q-btn>
-            <q-btn
-              @click="deleteQweet(qweet)"
-              color="grey"
-              icon="fas fa-trash"
-              size="sm"
-              flat
-              round
-            ></q-btn>
-          </div>
-        </q-item-section>
+          <q-item-section>
+            <q-item-label class="text-subtitle1"
+              ><strong>Bruno Machado</strong>
+              <span class="text-grey-7"> @brunomdr02</span></q-item-label
+            >
+            <q-item-label class="qweet-content text-body1">
+              {{ qweet.content }}
+            </q-item-label>
+            <div class="qweet-icons row justify-between q-mt-sm">
+              <q-btn
+                color="grey"
+                icon="far fa-comment"
+                size="sm"
+                flat
+                round
+              ></q-btn>
+              <q-btn
+                color="grey"
+                icon="fas fa-retweet"
+                size="sm"
+                flat
+                round
+              ></q-btn>
+              <q-btn
+                color="grey"
+                icon="far fa-heart"
+                size="sm"
+                flat
+                round
+              ></q-btn>
+              <q-btn
+                @click="deleteQweet(qweet)"
+                color="grey"
+                icon="fas fa-trash"
+                size="sm"
+                flat
+                round
+              ></q-btn>
+            </div>
+          </q-item-section>
 
-        <q-item-section side top>{{ relativeDate(qweet.date) }}</q-item-section>
-      </q-item>
+          <q-item-section side top>{{
+            relativeDate(qweet.date)
+          }}</q-item-section>
+        </q-item>
+      </transition-group>
     </q-list>
   </q-page>
 </template>
@@ -102,8 +110,7 @@ export default defineComponent({
       newQweetContent: "",
       qweets: [
         {
-          content:
-            "Olá mundo.",
+          content: "Olá mundo.",
           date: 1658082810106,
         },
         {
@@ -124,6 +131,7 @@ export default defineComponent({
         date: Date.now(),
       };
       this.qweets.unshift(newQweet);
+      this.newQweetContent = "";
     },
     deleteQweet(qweet) {
       let dateToDelete = qweet.date;
