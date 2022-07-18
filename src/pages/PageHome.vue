@@ -77,8 +77,9 @@
                   round
                 ></q-btn>
                 <q-btn
-                  color="grey"
-                  icon="far fa-heart"
+                  @click="toggleLiked(qweet)"
+                  :color="qweet.liked ? 'pink' : 'grey'"
+                  :icon="qweet.liked ? 'fas fa-heart' : 'far fa-heart'"
                   size="sm"
                   flat
                   round
@@ -111,6 +112,7 @@ import {
   onSnapshot,
   deleteDoc,
   doc,
+  updateDoc
 } from "firebase/firestore";
 import { defineComponent } from "vue";
 import { formatDistance } from "date-fns";
@@ -120,7 +122,21 @@ export default defineComponent({
   data() {
     return {
       newQweetContent: "",
-      qweets: [],
+      qweets: [
+        // {
+        //   id: "ID1",
+        //   content: "Be your own hero, its cheaper than a movie ticket.",
+        //   date: 1611653238221,
+        //   liked: false,
+        // },
+        // {
+        //   id: "ID2",
+        //   content:
+        //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat justo id viverra consequat. Integer feugiat lorem faucibus est ornare scelerisque. Donec tempus, nunc vitae semper sagittis, odio magna semper ipsum, et laoreet sapien mauris vitae arcu.",
+        //   date: 1611653252444,
+        //   liked: true,
+        // },
+      ],
     };
   },
   methods: {
@@ -131,12 +147,18 @@ export default defineComponent({
       let newQweet = {
         content: this.newQweetContent,
         date: Date.now(),
+        liked: false,
       };
       const docRef = await addDoc(collection(db, "qweets"), newQweet);
       this.newQweetContent = "";
     },
     async deleteQweet(qweet) {
       await deleteDoc(doc(db, "qweets", qweet.id));
+    },
+    async toggleLiked(qweet) {
+      await updateDoc(doc(db, "qweets", qweet.id), {
+        liked: !qweet.liked,
+      });
     },
   },
   async mounted() {
@@ -152,6 +174,10 @@ export default defineComponent({
         }
         if (change.type === "modified") {
           console.log("Qweet atualizado: ", change.doc.data());
+          let index = this.qweets.findIndex(
+            (qweet) => qweet.id === qweetChange.id
+          );
+          Object.assign(this.qweets[index], qweetChange);
         }
         if (change.type === "removed") {
           let index = this.qweets.findIndex(
@@ -161,10 +187,6 @@ export default defineComponent({
         }
       });
     });
-
-    // querySnapshot.forEach((doc) => {
-    //   this.qweets.unshift(doc.data());
-    // });
   },
 });
 </script>
