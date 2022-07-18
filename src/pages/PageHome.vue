@@ -41,7 +41,7 @@
           enter-active-class="animated fadeIn slow"
           leave-active-class="animated fadeOut slow"
         >
-          <q-item v-for="qweet in qweets" :key="qweet.date" class="q-py-md">
+          <q-item v-for="qweet in qweets" :key="qweet.id" class="qweet q-py-md">
             <q-item-section avatar top>
               <q-avatar size="xl">
                 <img
@@ -108,6 +108,9 @@ import {
   orderBy,
   query,
   addDoc,
+  onSnapshot,
+  deleteDoc,
+  doc,
 } from "firebase/firestore";
 import { defineComponent } from "vue";
 import { formatDistance } from "date-fns";
@@ -129,23 +132,39 @@ export default defineComponent({
         content: this.newQweetContent,
         date: Date.now(),
       };
-      const docRef = await addDoc(collection(db, "qweets"), (newQweet));
+      const docRef = await addDoc(collection(db, "qweets"), newQweet);
       this.newQweetContent = "";
     },
-    deleteQweet(qweet) {
-      let dateToDelete = qweet.date;
-      let index = this.qweets.findIndex((qweet) => qweet.date === dateToDelete);
-      this.qweets.splice(index, 1);
+    async deleteQweet(qweet) {
+      await deleteDoc(doc(db, "qweets", qweet.id));
     },
   },
   async mounted() {
     const ordersRef = collection(db, "qweets");
     const q = query(ordersRef, orderBy("date"));
-    const querySnapshot = await getDocs(q);
 
-    querySnapshot.forEach((doc) => {
-      this.qweets.unshift(doc.data());
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        let qweetChange = change.doc.data();
+        qweetChange.id = change.doc.id;
+        if (change.type === "added") {
+          this.qweets.unshift(qweetChange);
+        }
+        if (change.type === "modified") {
+          console.log("Qweet atualizado: ", change.doc.data());
+        }
+        if (change.type === "removed") {
+          let index = this.qweets.findIndex(
+            (qweet) => qweet.id === qweetChange.id
+          );
+          this.qweets.splice(index, 1);
+        }
+      });
     });
+
+    // querySnapshot.forEach((doc) => {
+    //   this.qweets.unshift(doc.data());
+    // });
   },
 });
 </script>
