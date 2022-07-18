@@ -15,7 +15,7 @@
             <template v-slot:before>
               <q-avatar size="xl">
                 <img
-                  src="https://pbs.twimg.com/profile_images/1391831038511521794/izFarcRT_400x400.jpg"
+                  src="https://i.imgur.com/HYOe5LV.jpg"
                 />
               </q-avatar>
             </template>
@@ -45,16 +45,16 @@
             <q-item-section avatar top>
               <q-avatar size="xl">
                 <img
-                  src="https://pbs.twimg.com/profile_images/1391831038511521794/izFarcRT_400x400.jpg"
+                  src="https://i.imgur.com/HYOe5LV.jpg"
                 />
               </q-avatar>
             </q-item-section>
 
             <q-item-section>
               <q-item-label class="text-subtitle1"
-                ><strong>Bruno Machado</strong>
+                ><strong>Usuário do Qwitter</strong>
                 <span class="text-grey-7">
-                  @brunomdr02 <br class="lt-md" />&bull;
+                  @brunomdrrosa <br class="lt-md" />&bull;
                   {{ relativeDate(qweet.date) }}</span
                 ></q-item-label
               >
@@ -139,7 +139,16 @@ export default defineComponent({
       this.newQweetContent = "";
     },
     async deleteQweet(qweet) {
-      await deleteDoc(doc(db, "qweets", qweet.id));
+      let IDsCantBeRemoved = [
+        "fvXiDVuhvQyKvgRW3ip7",
+        "qc4DNSfDhUoeMBWcpEQY",
+        "VCyqOBAMPoPsZC7yRU6z",
+      ];
+      if (IDsCantBeRemoved.includes(qweet.id)) {
+        console.log("Este tweet não pode removido");
+      } else {
+        await deleteDoc(doc(db, "qweets", qweet.id));
+      }
     },
     async toggleLiked(qweet) {
       await updateDoc(doc(db, "qweets", qweet.id), {
