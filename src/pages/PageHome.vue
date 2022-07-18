@@ -1,6 +1,6 @@
 <template>
   <q-page class="relative-position">
-    <q-scroll-area class="absolute fullscreen">
+    <q-scroll-area class="absolute full-width full-height">
       <div class="q-py-lg q-px-md row items-end q-col-gutter-md">
         <div class="col">
           <q-input
@@ -112,7 +112,7 @@ import {
   onSnapshot,
   deleteDoc,
   doc,
-  updateDoc
+  updateDoc,
 } from "firebase/firestore";
 import { defineComponent } from "vue";
 import { formatDistance } from "date-fns";
@@ -122,21 +122,7 @@ export default defineComponent({
   data() {
     return {
       newQweetContent: "",
-      qweets: [
-        // {
-        //   id: "ID1",
-        //   content: "Be your own hero, its cheaper than a movie ticket.",
-        //   date: 1611653238221,
-        //   liked: false,
-        // },
-        // {
-        //   id: "ID2",
-        //   content:
-        //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat justo id viverra consequat. Integer feugiat lorem faucibus est ornare scelerisque. Donec tempus, nunc vitae semper sagittis, odio magna semper ipsum, et laoreet sapien mauris vitae arcu.",
-        //   date: 1611653252444,
-        //   liked: true,
-        // },
-      ],
+      qweets: [],
     };
   },
   methods: {
@@ -173,7 +159,6 @@ export default defineComponent({
           this.qweets.unshift(qweetChange);
         }
         if (change.type === "modified") {
-          console.log("Qweet atualizado: ", change.doc.data());
           let index = this.qweets.findIndex(
             (qweet) => qweet.id === qweetChange.id
           );
