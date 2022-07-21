@@ -42,7 +42,7 @@ O clone do Twitter foi feito seguindo o tutorial do [Danny Connell](https://www.
 ### Melhorias para realizar
 
 - [ ] Arrumar a estilização dos ícones que estão abaixo do tweet, pois estão muito afastados para a versão desktop
-- [ ] Impedir que os tweets criados por mim sejam removidos
+- [X] Impedir que os tweets criados por mim sejam removidos
 - [ ] Utilizar uma API para mostrar notícias atualizadas na barra da direita
 
 ---

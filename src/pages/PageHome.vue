@@ -14,9 +14,7 @@
           >
             <template v-slot:before>
               <q-avatar size="xl">
-                <img
-                  src="https://i.imgur.com/HYOe5LV.jpg"
-                />
+                <img src="https://i.imgur.com/HYOe5LV.jpg" />
               </q-avatar>
             </template>
           </q-input>
@@ -44,9 +42,7 @@
           <q-item v-for="qweet in qweets" :key="qweet.id" class="qweet q-py-md">
             <q-item-section avatar top>
               <q-avatar size="xl">
-                <img
-                  src="https://i.imgur.com/HYOe5LV.jpg"
-                />
+                <img src="https://i.imgur.com/HYOe5LV.jpg" />
               </q-avatar>
             </q-item-section>
 
@@ -140,9 +136,9 @@ export default defineComponent({
     },
     async deleteQweet(qweet) {
       let IDsCantBeRemoved = [
-        "fvXiDVuhvQyKvgRW3ip7",
-        "qc4DNSfDhUoeMBWcpEQY",
-        "VCyqOBAMPoPsZC7yRU6z",
+        "QPmEdZqkkszpEB7Z11Fk",
+        "y76Sz5s63NGsHYEEBveA",
+        "72wKtb4AHbcF8roFiL84",
       ];
       if (IDsCantBeRemoved.includes(qweet.id)) {
         console.log("Este tweet não pode removido");
